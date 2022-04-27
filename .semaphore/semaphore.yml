@@ -8,7 +8,7 @@ blocks:
   - name: Compatibility check
     task:
       jobs:
-        - name: 'Job #1'
+        - name: Check the schema compatibility with the registry.
           commands:
             - checkout
             - sem-version ruby 2.7.3
