@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'byebug'
 require 'avro_turf'
 require 'dotenv'
@@ -17,4 +19,5 @@ avro = AvroTurf::Messaging.new(
 registry = avro.instance_variable_get(:@registry)
 store = avro.instance_variable_get(:@schema_store)
 
-registry.compatible?("order_created", store.find("order_created"))
+valid = registry.compatible?("order_created", store.find("order_created"))
+abort("incompatible evolution") unless valid
