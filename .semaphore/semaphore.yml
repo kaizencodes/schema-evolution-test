@@ -1,0 +1,26 @@
+version: v1.0
+name: Initial Pipeline
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: Compatibility check
+    task:
+      jobs:
+        - name: 'Job #1'
+          commands:
+            - checkout
+            - sem-version ruby 2.7.3
+            - checkout
+            - cache restore
+            - bundle install
+            - cache store
+            - ./check_compatibility.rb
+      env_vars:
+        - name: REGISTRY_URL
+          value: 'https://psrc-1w11j.eu-central-1.aws.confluent.cloud'
+        - name: API_KEY
+          value: EEDBWPQIEDYYDGA7
+        - name: API_SECRET
+          value: /VFKFjHfhDuB6/YsRPUHKlEMpwJwrfotWwPboHpxI5hbX3w2/n4xrInz7O88QJ3r
