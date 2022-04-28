@@ -24,4 +24,11 @@ registry = AvroTurf::ConfluentSchemaRegistry.new(
   password: ENV.fetch('API_SECRET')
 )
 
-registry.register(ARGV[0], store.find(ARGV[0]))
+begin 
+  schema_name = ARGV[0]
+  registry.register(schema_name, store.find(schema_name))
+rescue Avro::Builder::FileHandler::FileNotFoundError
+  abort("schema not found: #{schema_name}")
+rescue Excon::Error::Conflict
+  abort("incompatible evolution for schema: #{schema_name}")
+end
