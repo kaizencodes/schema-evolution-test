@@ -12,7 +12,6 @@ blocks:
           commands:
             - checkout
             - sem-version ruby 2.7.3
-            - checkout
             - cache restore
             - bundle install
             - cache store
