@@ -20,7 +20,5 @@ blocks:
       env_vars:
         - name: REGISTRY_URL
           value: 'https://psrc-1w11j.eu-central-1.aws.confluent.cloud'
-        - name: API_KEY
-          value: EEDBWPQIEDYYDGA7
-        - name: API_SECRET
-          value: /VFKFjHfhDuB6/YsRPUHKlEMpwJwrfotWwPboHpxI5hbX3w2/n4xrInz7O88QJ3r
+      secrets:
+        - name: confluent test credentials
