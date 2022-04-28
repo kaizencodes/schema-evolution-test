@@ -16,8 +16,6 @@ blocks:
             - bundle install
             - cache store
             - ./check_compatibility.rb
-      env_vars:
-        - name: REGISTRY_URL
-          value: 'https://psrc-1w11j.eu-central-1.aws.confluent.cloud'
+      env_vars: []
       secrets:
         - name: confluent test credentials
