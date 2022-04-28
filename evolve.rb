@@ -7,6 +7,11 @@ require 'dotenv'
 require 'avro/builder'
 require 'avro_turf/confluent_schema_registry'
 
+if ARGV.length < 1
+  puts "Provide the schema name to evolve"
+  exit
+end
+
 Dotenv.load
 
 schema_path = File.join(__dir__, 'avro', 'dsl')
@@ -19,11 +24,11 @@ registry = AvroTurf::ConfluentSchemaRegistry.new(
   password: ENV.fetch('API_SECRET')
 )
 
-schema_names = Dir.entries(schema_path)
-                  .select { _1.match(/\w*.rb\z/) }
-                  .map { _1.gsub(/.rb/, '') }
-
-schema_names.each do |schema_name|
-  schema = store.find(schema_name)
-  abort("incompatible evolution for schema: #{schema_name}") if !registry.compatible?(schema_name, schema)
+begin 
+  schema_name = ARGV[0]
+  registry.register(schema_name, store.find(schema_name))
+rescue Avro::Builder::FileHandler::FileNotFoundError
+  abort("schema not found: #{schema_name}")
+rescue Excon::Error::Conflict
+  abort("incompatible evolution for schema: #{schema_name}")
 end
